@@ -33,7 +33,8 @@ headers['Authorization'] = f'bearer {TOKEN}' #adding token
 def number_of_subscribers(subreddit):
     """this function queries the reddit API""" 
     
-    res1 = requests.get('https://oauth.reddit.com/r/subreddit/about', headers=headers).json()
+    url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
+    res1 = requests.get(url, headers=headers).json()
     if 'subscribers' in res1:
        return res1['subscribers']
     else:
