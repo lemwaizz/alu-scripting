@@ -35,8 +35,8 @@ def number_of_subscribers(subreddit):
     
     url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
     res1 = requests.get(url, headers=headers).json()
-    if 'subscribers' in res1:
-       return res1['subscribers']
+    if 'data' in res1:
+       return res1['data']['subscribers']
     else:
        return 0
 subreddit = sys.argv[1]
