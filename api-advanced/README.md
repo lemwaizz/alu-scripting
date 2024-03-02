@@ -1,2 +1,1 @@
-reddit API familiarization
-using reddit api
+USING REDDIT API TO PERFORM DIFFERENT SCRIPTS.
