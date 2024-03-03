@@ -58,5 +58,6 @@ def number_of_subscribers(subreddit):
 # Get subreddit name from command line argument
 if len(sys.argv) > 1:
     subreddit = sys.argv[1]
+    number_of_subscribers(subreddit)
 else:
     print("Please provide a subreddit name as a command line argument.")
