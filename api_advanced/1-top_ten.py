@@ -40,6 +40,7 @@ if response.status_code == 200:
 
 def top_ten(subreddit):
     """Query the Reddit API to get the titles of the first 10 hot posts for a given subreddit."""
+    subreddit = sys.argv[1]
     url = 'https://oauth.reddit.com/r/{}/hot'.format(subreddit)
     response = requests.get(url, headers=headers, allow_redirects=False)
     
@@ -51,13 +52,8 @@ def top_ten(subreddit):
             posts = subreddit_info['data']['children']
             # Print the titles of the first 10 posts
             for post in posts[:10]:
-                print(post['data']['title'])
+                hots = post['data']['title']
     else:
-        print("None")
+        return None
+    return hots
 
-# Get subreddit name from command line argument
-if len(sys.argv) > 1:
-    subreddit = sys.argv[1]
-    top_ten(subreddit)
-else:
-    print("Please provide a subreddit name as a command line argument.")
