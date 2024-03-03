@@ -8,8 +8,8 @@ import json
 import requests
 import sys
 
-CLIENT_ID = "l-kWeMxr8KBehyspZ-Yy-w"
-SECRET_KEY = "FlcinD3d6kmC9B0fHOLrrukf8YlQ0Q"
+CLIENT_ID = "XCDVknlXgCP7m5P-v1azPw"
+SECRET_KEY = "g6JwkdLNyEVmzBkJ1HtgWLlweFai6A"
 
 """request authorization for the reddit api"""
 auth = requests.auth.HTTPBasicAuth(CLIENT_ID, SECRET_KEY)
@@ -24,11 +24,12 @@ data = {
 	'username': 'LeMwaizz',
 	'password' : pw
 	}
-headers = {'User-Agent': 'apiadvanced/0.0.1'}
+headers = {'User-Agent': 'apiadvanced/0.0.2'}
 
 """request to use reddit api"""
-res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=data, headers=headers)
-TOKEN = res.json()['access_token']
+res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=data, headers=headers).json()
+TOKEN = res['access_token']
+print(res.json())
 headers['Authorization'] = "bearer {}".format(TOKEN) #adding token
 def number_of_subscribers(subreddit):
     """this function queries the reddit API""" 
