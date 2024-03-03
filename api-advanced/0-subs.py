@@ -1,44 +1,68 @@
-#!/usr/bin/python3
-"""
-A function that queries the reddit API.
-"""
-
-
 import json
 import requests
 import sys
 
-CLIENT_ID = "XCDVknlXgCP7m5P-v1azPw"
-SECRET_KEY = "g6JwkdLNyEVmzBkJ1HtgWLlweFai6A"
+CLIENT_ID = "l-kWeMxr8KBehyspZ-Yy-w"
+SECRET_KEY = "FlcinD3d6kmC9B0fHOLrrukf8YlQ0Q"
 
-"""request authorization for the reddit api"""
+# Request authorization for the Reddit API
 auth = requests.auth.HTTPBasicAuth(CLIENT_ID, SECRET_KEY)
 
-"""read password"""
+# Read password from file
 with open('pw.txt', 'r') as f:
-     pw = f.read()
+    pw = f.read()
 
-"""initialize dictionary with login information"""
+# Initialize dictionary with login information
 data = {
-	'grant_type': 'password',
-	'username': 'LeMwaizz',
-	'password' : pw
-	}
-headers = {'User-Agent': 'apiadvanced/0.0.2'}
+    'grant_type': 'password',
+    'username': 'LeMwaizz',
+    'password': pw
+}
 
-"""request to use reddit api"""
-res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=data, headers=headers).json()
-TOKEN = res['access_token']
-print(res.json())
-headers['Authorization'] = "bearer {}".format(TOKEN) #adding token
+# Set user agent header
+headers = {'User-Agent': 'apiadvanced/0.0.1'}
+
+#request module
+response = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=data, headers=headers)
+
+if response.status_code == 200:
+    response_data = response.json()
+    # Your existing code to handle successful authentication
+else:
+    print(f"Failed to authenticate. Status code: {response.status_code}")
+    try:
+        response_data = response.json()
+        print(f"Response data: {response_data}")
+    except ValueError:
+        print(f"Response content: {response.content}")
+        # Print out the response content for debugging
+    sys.exit(1)
+
+# Check if the response contains an access token
+if 'access_token' in response_data:
+    token = response_data['access_token']
+    headers['Authorization'] = f'Bearer {token}'  # Adding token
+else:
+    print("Failed to obtain access token.")
+    sys.exit(1)
+
 def number_of_subscribers(subreddit):
-    """this function queries the reddit API""" 
+    """Query the Reddit API to get the number of subscribers for a given subreddit."""
+    url = f'https://oauth.reddit.com/r/{subreddit}/about'
+    response = requests.get(url, headers=headers)
     
-    url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
-    res1 = requests.get(url, headers=headers).json()
-    if 'data' in res1:
-       return res1['data']['subscribers']
+    # Check if the request was successful
+    if response.status_code == 200:
+        subreddit_info = response.json()
+        if 'data' in subreddit_info:
+            return subreddit_info['data'].get('subscribers', 0)
+        else:
+            return 0
     else:
-       return 0
-subreddit = sys.argv[1]
-print(number_of_subscribers(subreddit))
+        return 0
+
+# Get subreddit name from command line argument
+if len(sys.argv) > 1:
+    subreddit = sys.argv[1]
+else:
+    print("Please provide a subreddit name as a command line argument.")
