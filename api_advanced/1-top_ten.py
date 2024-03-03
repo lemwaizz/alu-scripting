@@ -52,14 +52,12 @@ def top_ten(subreddit):
             # Print the titles of the first 10 posts
             for post in posts[:10]:
                 print(post['data']['title'])
-        else:
-            print("No posts found.")
     else:
         print("None")
 
 # Get subreddit name from command line argument
 if len(sys.argv) > 1:
     subreddit = sys.argv[1]
-    print(top_ten(subreddit))
+    top_ten(subreddit)
 else:
     print("Please provide a subreddit name as a command line argument.")
