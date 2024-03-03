@@ -39,21 +39,24 @@ if response.status_code == 200:
 def number_of_subscribers(subreddit):
     """Query the Reddit API to get the number of subscribers for a given subreddit."""
     url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
-    response = requests.get(url, headers=headers)
+    res = requests.get(url, headers=headers, allow_redirects=False)
     
     # Check if the request was successful
-    if response.status_code == 200:
-        subreddit_info = response.json()
+    if res.status_code == 200:
+        subreddit_info = res.json()
         if 'data' in subreddit_info:
             return subreddit_info['data'].get('subscribers', 0)
         else:
             return 0
     else:
-        return 0
+        # Check for redirect status code indicating invalid subreddit
+        if response.status_code == 302:
+            return 0  # Invalid subreddit, return 0 subscribers
+        else:
+            return 0
 
 # Get subreddit name from command line argument
 if len(sys.argv) > 1:
     subreddit = sys.argv[1]
-    print("OK")
 else:
     print("Please provide a subreddit name as a command line argument.")
