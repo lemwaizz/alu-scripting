@@ -28,27 +28,18 @@ response = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth
 if response.status_code == 200:
     response_data = response.json()
     # Your existing code to handle successful authentication
-else:
-    print(f"Failed to authenticate. Status code: {response.status_code}")
-    try:
-        response_data = response.json()
-        print(f"Response data: {response_data}")
-    except ValueError:
-        print(f"Response content: {response.content}")
-        # Print out the response content for debugging
-    sys.exit(1)
 
 # Check if the response contains an access token
 if 'access_token' in response_data:
     token = response_data['access_token']
-    headers['Authorization'] = f'Bearer {token}'  # Adding token
+    headers['Authorization'] = 'Bearer {}'.format(token)
 else:
     print("Failed to obtain access token.")
     sys.exit(1)
 
 def number_of_subscribers(subreddit):
     """Query the Reddit API to get the number of subscribers for a given subreddit."""
-    url = f'https://oauth.reddit.com/r/{subreddit}/about'
+    url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
     response = requests.get(url, headers=headers)
     
     # Check if the request was successful
