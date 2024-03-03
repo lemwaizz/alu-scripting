@@ -36,9 +36,9 @@ if response.status_code == 200:
     else:
         print("Failed to obtain access token.")
         sys.exit(1)
-subreddit = sys.argv[1]
 def number_of_subscribers(subreddit):
     """Query the Reddit API to get the number of subscribers for a given subreddit."""
+    subreddit = sys.argv[1]
     url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
     res = requests.get(url, headers=headers, allow_redirects=False)
     
