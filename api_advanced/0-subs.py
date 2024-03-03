@@ -35,13 +35,8 @@ if response.status_code == 200:
         print("Failed to obtain access token.")
         sys.exit(1)
 else:
-    print(f"Failed to authenticate. Status code: {response.status_code}")
     try:
         response_data = response.json()
-        print(f"Response data: {response_data}")
-    except ValueError:
-        print(f"Response content: {response.content}")
-    sys.exit(1)
 
 def number_of_subscribers(subreddit):
     """Query the Reddit API to get the number of subscribers for a given subreddit."""
@@ -54,10 +49,8 @@ def number_of_subscribers(subreddit):
         if 'data' in subreddit_info:
             return subreddit_info['data'].get('subscribers', 0)
         else:
-            print("Subreddit information not found.")
             return 0
     else:
-        print(f"Failed to fetch subreddit information. Status code: {response.status_code}")
         return 0
 
 # Get subreddit name from command line argument
