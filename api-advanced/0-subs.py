@@ -29,7 +29,7 @@ headers = {'User-Agent': 'apiadvanced/0.0.1'}
 """request to use reddit api"""
 res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, data=data, headers=headers)
 TOKEN = res.json()['access_token']
-headers['Authorization'] = f'bearer {TOKEN}' #adding token
+headers['Authorization'] = print("bearer {}").format(TOKEN) #adding token
 def number_of_subscribers(subreddit):
     """this function queries the reddit API""" 
     
