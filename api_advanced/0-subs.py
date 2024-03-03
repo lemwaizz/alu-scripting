@@ -34,10 +34,6 @@ if response.status_code == 200:
     else:
         print("Failed to obtain access token.")
         sys.exit(1)
-else:
-    try:
-        response_data = response.json()
-
 def number_of_subscribers(subreddit):
     """Query the Reddit API to get the number of subscribers for a given subreddit."""
     url = 'https://oauth.reddit.com/r/{}/about'.format(subreddit)
@@ -56,6 +52,5 @@ def number_of_subscribers(subreddit):
 # Get subreddit name from command line argument
 if len(sys.argv) > 1:
     subreddit = sys.argv[1]
-    print(number_of_subscribers(subreddit))
 else:
     print("Please provide a subreddit name as a command line argument.")
